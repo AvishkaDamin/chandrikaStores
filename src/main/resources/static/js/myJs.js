@@ -317,7 +317,7 @@ $("#invoiceNumber").bind("keyup", function () {
 
 //colour change function --start
 let backgroundColourChangeGood = function (id) {
-    $(id).css('background-color', '#00FFFF');
+    $(id).css('background-color', '#7ff53b');
 };
 
 let backgroundColourChangeBad = function (id) {
@@ -386,7 +386,7 @@ $("#startDate, #endDate").bind("click", function () {
         $('#endDate').attr('min', $('#startDate').val());
     }
 
-//only start date has value
+    //only start date has value
     if (startDate.length !== 0 && endDate.length !== 0) {
         let milliSecondStartDate = Date.parse(startDate);
         let milliSecondEndDate = Date.parse(endDate);
@@ -525,16 +525,16 @@ let checkStrength = function (password, filedId) {
         return `Too short  , Password length : ${password.length}`;
     }
     if (password.length > 7) strength += 1
-// If password contains both lower and uppercase characters, increase strength value.
+    // If password contains both lower and uppercase characters, increase strength value.
     if (password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/)) strength += 1
-// If it has numbers and characters, increase strength value.
+    // If it has numbers and characters, increase strength value.
     if (password.match(/([a-zA-Z])/) && password.match(/([0-9])/)) strength += 1
-// If it has one special character, increase strength value.
+    // If it has one special character, increase strength value.
     if (password.match(/([!,%,&,@,#,$,^,*,?,_,~])/)) strength += 1
-// If it has two special characters, increase strength value.
+    // If it has two special characters, increase strength value.
     if (password.match(/(.*[!,%,&,@,#,$,^,*,?,_,~].*[!,%,&,@,#,$,^,*,?,_,~])/)) strength += 1
-// Calculated strength value, we can return messages
-// If value is less than 2
+    // Calculated strength value, we can return messages
+    // If value is less than 2
     if (strength < 2) {
         filedId.removeClass();
         filedId.addClass('badge badge-pill badge-warning');
