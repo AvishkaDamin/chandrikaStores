@@ -317,11 +317,11 @@ $("#invoiceNumber").bind("keyup", function () {
 
 //colour change function --start
 let backgroundColourChangeGood = function (id) {
-    $(id).css('background-color', '#7ff53b');
+    $(id).css('background-color', '#2596be');
 };
 
 let backgroundColourChangeBad = function (id) {
-    $(id).css('background-color', '#FF00AA');
+    $(id).css('background-color', '#ffb3d7');
 };
 
 let backgroundColourChangeNothingToChange = function (id) {
