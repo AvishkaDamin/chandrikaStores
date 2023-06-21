@@ -317,7 +317,7 @@ $("#invoiceNumber").bind("keyup", function () {
 
 //colour change function --start
 let backgroundColourChangeGood = function (id) {
-    $(id).css('background-color', '#2596be');
+    $(id).css('background-color', '#00ff9c');
 };
 
 let backgroundColourChangeBad = function (id) {
