@@ -1,6 +1,5 @@
 package lk.nimal_stores.asset.employee.controller;
 
-
 import lk.nimal_stores.asset.common_asset.model.enums.*;
 import lk.nimal_stores.asset.employee.entity.Employee;
 import lk.nimal_stores.asset.employee.entity.EmployeeFiles;
@@ -29,7 +28,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping( "/employee" )
+@RequestMapping("/employee")
 public class EmployeeController {
   private final EmployeeService employeeService;
   private final EmployeeFilesService employeeFilesService;
@@ -39,8 +38,8 @@ public class EmployeeController {
 
   @Autowired
   public EmployeeController(EmployeeService employeeService, EmployeeFilesService employeeFilesService,
-                             UserService userService,
-                            MakeAutoGenerateNumberService makeAutoGenerateNumberService) {
+      UserService userService,
+      MakeAutoGenerateNumberService makeAutoGenerateNumberService) {
     this.employeeService = employeeService;
     this.employeeFilesService = employeeFilesService;
     this.userService = userService;
@@ -58,37 +57,36 @@ public class EmployeeController {
     return "employee/addEmployee";
   }
 
-  //When scr called file will send to
-  @GetMapping( "/file/{filename}" )
-  public ResponseEntity< byte[] > downloadFile(@PathVariable( "filename" ) String filename) {
+  // When scr called file will send to
+  @GetMapping("/file/{filename}")
+  public ResponseEntity<byte[]> downloadFile(@PathVariable("filename") String filename) {
     EmployeeFiles file = employeeFilesService.findByNewID(filename);
     return ResponseEntity.ok()
         .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
         .body(file.getPic());
   }
 
-  //Send all employee data
+  // Send all employee data
   @RequestMapping
   public String employeePage(Model model) {
     System.out.println(" im in");
-    List< Employee > employees = new ArrayList<>();
-    for ( Employee employee : employeeService.findAll()
+    List<Employee> employees = new ArrayList<>();
+    for (Employee employee : employeeService.findAll()
         .stream()
         .filter(x -> LiveDead.ACTIVE.equals(x.getLiveDead()))
-        .collect(Collectors.toList())
-    ) {
+        .collect(Collectors.toList())) {
       employee.setFileInfo(employeeFilesService.employeeFileDownloadLinks(employee));
       employees.add(employee);
     }
-    System.out.println("dfsdfs "+employees.size());
+    System.out.println("dfsdfs " + employees.size());
     model.addAttribute("employees", employees);
     model.addAttribute("contendHeader", "Employee");
     return "employee/employee";
   }
 
-  //Send on employee details
-  @GetMapping( value = "/{id}" )
-  public String employeeView(@PathVariable( "id" ) Integer id, Model model) {
+  // Send on employee details
+  @GetMapping(value = "/{id}")
+  public String employeeView(@PathVariable("id") Integer id, Model model) {
     Employee employee = employeeService.findById(id);
     model.addAttribute("employeeDetail", employee);
     model.addAttribute("addStatus", false);
@@ -97,9 +95,9 @@ public class EmployeeController {
     return "employee/employee-detail";
   }
 
-  //Send employee data edit
-  @GetMapping( value = "/edit/{id}" )
-  public String editEmployeeForm(@PathVariable( "id" ) Integer id, Model model) {
+  // Send employee data edit
+  @GetMapping(value = "/edit/{id}")
+  public String editEmployeeForm(@PathVariable("id") Integer id, Model model) {
     Employee employee = employeeService.findById(id);
     model.addAttribute("employee", employee);
     model.addAttribute("addStatus", false);
@@ -108,8 +106,8 @@ public class EmployeeController {
     return commonThings(model);
   }
 
-  //Send an employee add form
-  @GetMapping( value = {"/add"} )
+  // Send an employee add form
+  @GetMapping(value = { "/add" })
   public String employeeAddForm(Model model) {
     model.addAttribute("addStatus", true);
     model.addAttribute("employee", new Employee());
@@ -117,11 +115,10 @@ public class EmployeeController {
     return commonThings(model);
   }
 
-  //Employee add and update
-  @PostMapping( value = {"/save", "/update"} )
-  public String addEmployee(@Valid @ModelAttribute Employee employee, BindingResult result, Model model
-                           ) {
-    if ( result.hasErrors() ) {
+  // Employee add and update
+  @PostMapping(value = { "/save", "/update" })
+  public String addEmployee(@Valid @ModelAttribute Employee employee, BindingResult result, Model model) {
+    if (result.hasErrors()) {
       model.addAttribute("addStatus", true);
       model.addAttribute("employee", employee);
       return commonThings(model);
@@ -130,62 +127,64 @@ public class EmployeeController {
     employee.setMobileTwo(makeAutoGenerateNumberService.phoneNumberLengthValidator(employee.getMobileTwo()));
     employee.setLand(makeAutoGenerateNumberService.phoneNumberLengthValidator(employee.getLand()));
 
-    if ( employee.getId() == null ) {
+    if (employee.getId() == null) {
       Employee lastEmployee = employeeService.lastEmployee();
-      if ( lastEmployee.getCode() == null ) {
-        employee.setCode("NSSE" + makeAutoGenerateNumberService.numberAutoGen(null).toString());
+      if (lastEmployee.getCode() == null) {
+        employee.setCode("CSSE" + makeAutoGenerateNumberService.numberAutoGen(null).toString());
       } else {
-        employee.setCode("NSSE" + makeAutoGenerateNumberService.numberAutoGen(lastEmployee.getCode().substring(4)).toString());
+        employee.setCode(
+            "CSSE" + makeAutoGenerateNumberService.numberAutoGen(lastEmployee.getCode().substring(4)).toString());
       }
 
       Employee employeeNic = null;
-      if ( employee.getNic() != null && employee.getId() == null ) {
+      if (employee.getNic() != null && employee.getId() == null) {
         employeeNic = employeeService.findByNic(employee.getNic());
       }
-      if ( employeeNic != null ) {
+      if (employeeNic != null) {
         ObjectError error = new ObjectError("employee",
-                "There is employee on same nic number . <br> System message -->");
+            "There is employee on same nic number . <br> System message -->");
         result.addError(error);
       }
     }
 
-    //after save employee files and save employee
+    // after save employee files and save employee
     Employee employeeSaved = employeeService.persist(employee);
-    //if employee state is not working he or she cannot access to the system
-    if ( !employee.getEmployeeStatus().equals(EmployeeStatus.WORKING) ) {
+    // if employee state is not working he or she cannot access to the system
+    if (!employee.getEmployeeStatus().equals(EmployeeStatus.WORKING)) {
       User user = userService.findUserByEmployee(employeeService.findByNic(employee.getNic()));
-      //if employee not a user
-      if ( user != null ) {
+      // if employee not a user
+      if (user != null) {
         user.setEnabled(false);
         userService.persist(user);
       }
     }
 
     try {
-      //save employee images file
-      if ( employee.getFile().getOriginalFilename() != null && !Objects.requireNonNull(employee.getFile().getContentType()).equals("application/octet-stream")) {
+      // save employee images file
+      if (employee.getFile().getOriginalFilename() != null
+          && !Objects.requireNonNull(employee.getFile().getContentType()).equals("application/octet-stream")) {
         EmployeeFiles employeeFiles = employeeFilesService.findByEmployee(employeeSaved);
-        if ( employeeFiles != null ) {
+        if (employeeFiles != null) {
           // update new contents
           employeeFiles.setPic(employee.getFile().getBytes());
           // Save all to database
         } else {
           employeeFiles = new EmployeeFiles(employee.getFile().getOriginalFilename(),
-                                            employee.getFile().getContentType(),
-                                            employee.getFile().getBytes(),
-                                            employee.getNic().concat("-" + LocalDateTime.now()),
-                                            UUID.randomUUID().toString().concat("employee"));
+              employee.getFile().getContentType(),
+              employee.getFile().getBytes(),
+              employee.getNic().concat("-" + LocalDateTime.now()),
+              UUID.randomUUID().toString().concat("employee"));
           employeeFiles.setEmployee(employee);
         }
         employeeFilesService.persist(employeeFiles);
       }
       return "redirect:/employee";
 
-    } catch ( Exception e ) {
+    } catch (Exception e) {
       ObjectError error = new ObjectError("employee",
-                                          "There is already in the system. <br>System message -->" + e.toString());
+          "There is already in the system. <br>System message -->" + e.toString());
       result.addError(error);
-      if ( employee.getId() != null ) {
+      if (employee.getId() != null) {
         model.addAttribute("addStatus", true);
         System.out.println("id is null");
       } else {
@@ -196,19 +195,17 @@ public class EmployeeController {
     }
   }
 
-
-  @GetMapping( value = "/remove/{id}" )
+  @GetMapping(value = "/remove/{id}")
   public String removeEmployee(@PathVariable Integer id) {
     employeeService.delete(id);
     return "redirect:/employee";
   }
 
-  //To search employee any giving employee parameter
-  @GetMapping( value = "/search" )
+  // To search employee any giving employee parameter
+  @GetMapping(value = "/search")
   public String search(Model model, Employee employee) {
     model.addAttribute("employeeDetail", employeeService.search(employee));
     return "employee/employee-detail";
   }
-
 
 }
