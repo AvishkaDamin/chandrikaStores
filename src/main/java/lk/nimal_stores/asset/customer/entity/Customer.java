@@ -43,7 +43,7 @@ public class Customer extends AuditEntity {
     @Column(unique = true)
     private String code; // ex. {yearLastTwo}{less than ten thousand}
 
-    @Column(unique = true)
+    @Column
     private String email;
 
     @Enumerated(EnumType.STRING)

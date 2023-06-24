@@ -22,14 +22,16 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/customer")
-public  class CustomerController implements AbstractController<Customer, Integer> {
+public class CustomerController implements AbstractController<Customer, Integer> {
     private final CustomerService customerService;
     private final MakeAutoGenerateNumberService makeAutoGenerateNumberService;
     private final EmailService emailService;
     private final TwilioMessageService twilioMessageService;
 
     @Autowired
-    public CustomerController(CustomerService customerService, MakeAutoGenerateNumberService makeAutoGenerateNumberService,EmailService emailService,TwilioMessageService twilioMessageService) {
+    public CustomerController(CustomerService customerService,
+            MakeAutoGenerateNumberService makeAutoGenerateNumberService, EmailService emailService,
+            TwilioMessageService twilioMessageService) {
         this.customerService = customerService;
         this.makeAutoGenerateNumberService = makeAutoGenerateNumberService;
         this.emailService = emailService;
@@ -46,8 +48,8 @@ public  class CustomerController implements AbstractController<Customer, Integer
     @GetMapping
     public String findAll(Model model) {
         model.addAttribute("customers", customerService.findAll().stream()
-            .filter(x-> LiveDead.ACTIVE.equals(x.getLiveDead()))
-            .collect(Collectors.toList()));
+                .filter(x -> LiveDead.ACTIVE.equals(x.getLiveDead()))
+                .collect(Collectors.toList()));
         return "customer/customer";
     }
 
@@ -61,35 +63,38 @@ public  class CustomerController implements AbstractController<Customer, Integer
         return commonThings(model, new Customer(), true);
     }
 
-    @PostMapping(value = {"/save", "/update"})
-    public String persist(Customer customer, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+    @PostMapping(value = { "/save", "/update" })
+    public String persist(Customer customer, BindingResult bindingResult, RedirectAttributes redirectAttributes,
+            Model model) {
         if (bindingResult.hasErrors()) {
             return commonThings(model, customer, true);
         }
-//phone number length validator
+        // phone number length validator
         if (customer.getMobile() != null) {
             customer.setMobile(makeAutoGenerateNumberService.phoneNumberLengthValidator(customer.getMobile()));
         }
 
-//if customer has id that customer is not a new customer
+        // if customer has id that customer is not a new customer
         if (customer.getId() == null) {
-            //if there is not customer in db
+            // if there is not customer in db
             if (customerService.lastCustomer() == null) {
                 System.out.println("last customer null");
-                //need to generate new one
-                customer.setCode("NSSC"+makeAutoGenerateNumberService.numberAutoGen(null).toString());
+                // need to generate new one
+                customer.setCode("CSSC" + makeAutoGenerateNumberService.numberAutoGen(null).toString());
             } else {
 
-                //if there is customer in db need to get that customer's code and increase its value
+                // if there is customer in db need to get that customer's code and increase its
+                // value
                 String previousCode = customerService.lastCustomer().getCode().substring(4);
-                customer.setCode("NSSC"+makeAutoGenerateNumberService.numberAutoGen(previousCode).toString());
+                customer.setCode("CSSC" + makeAutoGenerateNumberService.numberAutoGen(previousCode).toString());
             }
-            //send welcome message and email
+            // send welcome message and email
             if (customer.getEmail() != null) {
-                emailService.sendEmail(customer.getEmail(), "Welcome Message", "Welcome to Samarasinghe Super...");
+                emailService.sendEmail(customer.getEmail(), "Welcome Message", "Welcome to Chandrika Super...");
             }
             if (customer.getMobile() != null) {
-            //    twilioMessageService.sendSMS(customer.getMobile(), "Welcome to Samarasinghe Super");
+                // twilioMessageService.sendSMS(customer.getMobile(), "Welcome to Chandrika
+                // Super");
             }
         }
 

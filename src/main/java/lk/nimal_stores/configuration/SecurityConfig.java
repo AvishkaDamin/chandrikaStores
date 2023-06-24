@@ -1,6 +1,5 @@
 package lk.nimal_stores.configuration;
 
-
 import lk.nimal_stores.asset.user_management.service.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,8 +22,8 @@ import org.springframework.security.web.session.HttpSessionEventPublisher;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-  private final String[] ALL_PERMIT_URL = {"/favicon.ico", "/img/**", "/css/**", "/js/**", "/webjars/**",
-      "/login", "/select/**", "/", "/index"};
+  private final String[] ALL_PERMIT_URL = { "/favicon.ico", "/img/**", "/css/**", "/js/**", "/webjars/**",
+      "/login", "/select/**", "/", "/index" };
 
   @Bean
   public UserDetailsServiceImpl userDetailsService() {
@@ -44,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     return authProvider;
   }
 
-  /*Session management - bean start*/
+  /* Session management - bean start */
   @Bean
   public HttpSessionEventPublisher httpSessionEventPublisher() {
     return new HttpSessionEventPublisher();
@@ -54,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   public SessionRegistry sessionRegistry() {
     return new SessionRegistryImpl();
   }
-  /*Session management - bean end*/
+  /* Session management - bean end */
 
   @Bean
   public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
@@ -73,68 +72,62 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-  /*  http.csrf().disable();
-    http.authorizeRequests().antMatchers("/").permitAll();
-*/
+    /*
+     * http.csrf().disable();
+     * http.authorizeRequests().antMatchers("/").permitAll();
+     */
     // For developing easy to give permission all lin
-// {"ADMIN","STOCK_KEEPER","CASHIER","MANAGER","HR_MANAGER","ACCOUNTANT"}
+    // {"ADMIN","PROCUREMENT_MANAGER","CASHIER","MANAGER","HR_MANAGER","ACCOUNTANT"}
 
     http.authorizeRequests(
-        authorizeRequests ->
-            authorizeRequests
-                .antMatchers(ALL_PERMIT_URL).permitAll()
-                .antMatchers("/category/**").hasAnyRole("ADMIN","STOCK_KEEPER","CASHIER","MANAGER")
-                .antMatchers("/brand/**").hasAnyRole("ADMIN","STOCK_KEEPER","CASHIER","MANAGER")
-                .antMatchers("/category/**").hasAnyRole("CASHIER","MANAGER")
-                .antMatchers("/discountRatio/**").hasAnyRole("STOCK_KEEPER","MANAGER")
-                .antMatchers("/employee/**").hasAnyRole("MANAGER","ADMIN")
-                .antMatchers("/goodReceivedNote/**").hasAnyRole("MANAGER","STOCK_KEEPER")
-                .antMatchers("/payment/**").hasAnyRole("MANAGER","ACCOUNTANT","CASHIER")
-                .antMatchers("/purchaseOrder/**").hasAnyRole("MANAGER","STOCK_KEEPER")
-                .antMatchers("/role/**").hasAnyRole("MANAGER","ADMIN")
-                .antMatchers("/supplier/**").hasAnyRole("MANAGER","STOCK_KEEPER")
-                .antMatchers("/supplierItem/**").hasAnyRole("MANAGER","STOCK_KEEPER")
-                .antMatchers("/user/**").hasAnyRole("MANAGER","ADMIN")
-                .anyRequest()
-                .authenticated())
+        authorizeRequests -> authorizeRequests
+            .antMatchers(ALL_PERMIT_URL).permitAll()
+            .antMatchers("/category/**").hasAnyRole("ADMIN", "PROCUREMENT_MANAGER", "CASHIER", "MANAGER")
+            .antMatchers("/brand/**").hasAnyRole("ADMIN", "PROCUREMENT_MANAGER", "CASHIER", "MANAGER")
+
+            .antMatchers("/discountRatio/**").hasAnyRole("PROCUREMENT_MANAGER", "MANAGER")
+            .antMatchers("/employee/**").hasAnyRole("MANAGER", "ADMIN")
+            .antMatchers("/goodReceivedNote/**").hasAnyRole("MANAGER", "PROCUREMENT_MANAGER")
+            .antMatchers("/payment/**").hasAnyRole("MANAGER", "ACCOUNTANT", "CASHIER")
+            .antMatchers("/purchaseOrder/**").hasAnyRole("MANAGER", "PROCUREMENT_MANAGER")
+            .antMatchers("/role/**").hasAnyRole("MANAGER", "ADMIN")
+            .antMatchers("/supplier/**").hasAnyRole("MANAGER", "PROCUREMENT_MANAGER")
+            .antMatchers("/supplierItem/**").hasAnyRole("MANAGER", "PROCUREMENT_MANAGER")
+            .antMatchers("/user/**").hasAnyRole("MANAGER", "ADMIN")
+            .anyRequest()
+            .authenticated())
         // Login form
         .formLogin(
-            formLogin ->
-                formLogin
-                    .loginPage("/login")
-                    .loginProcessingUrl("/login")
-                    //Username and password for validation
-                    .usernameParameter("username")
-                    .passwordParameter("password")
-                    .successHandler(customAuthenticationSuccessHandler())
-                    .failureUrl("/login?error")
-                  )
-        //Logout controlling
+            formLogin -> formLogin
+                .loginPage("/login")
+                .loginProcessingUrl("/login")
+                // Username and password for validation
+                .usernameParameter("username")
+                .passwordParameter("password")
+                .successHandler(customAuthenticationSuccessHandler())
+                .failureUrl("/login?error"))
+        // Logout controlling
         .logout(
-            logout ->
-                logout
-                    .logoutUrl("/logout")
-                    .logoutSuccessHandler(customLogoutSuccessHandler())
-                    .deleteCookies("JSESSIONID")
-                    .invalidateHttpSession(true)
-                    .clearAuthentication(true))
-        //session management
+            logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessHandler(customLogoutSuccessHandler())
+                .deleteCookies("JSESSIONID")
+                .invalidateHttpSession(true)
+                .clearAuthentication(true))
+        // session management
         .sessionManagement(
-            sessionManagement ->
-                sessionManagement
-                    .sessionFixation().migrateSession()
-                    .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                    .invalidSessionUrl("/login")
-                    .maximumSessions(6)
-                    .expiredUrl("/logout")
-                    .sessionRegistry(sessionRegistry()))
-        //Cross site disable
+            sessionManagement -> sessionManagement
+                .sessionFixation().migrateSession()
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                .invalidSessionUrl("/login")
+                .maximumSessions(6)
+                .expiredUrl("/logout")
+                .sessionRegistry(sessionRegistry()))
+        // Cross site disable
         .csrf(AbstractHttpConfigurer::disable)
         .exceptionHandling().and()
         .headers()
         .addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN));
 
-
   }
 }
-
