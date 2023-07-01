@@ -12,7 +12,6 @@ import lk.chandrika_stores.asset.purchase_order_item.service.PurchaseOrderItemSe
 import lk.chandrika_stores.asset.supplier.entity.Supplier;
 import lk.chandrika_stores.asset.supplier.service.SupplierService;
 import lk.chandrika_stores.asset.supplier_item.controller.SupplierItemController;
-import lk.chandrika_stores.util.service.EmailService;
 import lk.chandrika_stores.util.service.MakeAutoGenerateNumberService;
 import lk.chandrika_stores.util.service.TwilioMessageService;
 import org.springframework.stereotype.Controller;
@@ -34,13 +33,12 @@ public class PurchaseOrderController {
     private final CommonService commonService;
     private final ItemService itemService;
     private final MakeAutoGenerateNumberService makeAutoGenerateNumberService;
-    private final EmailService emailService;
+
     private final TwilioMessageService twilioMessageService;
 
     public PurchaseOrderController(PurchaseOrderService purchaseOrderService,
                                    PurchaseOrderItemService purchaseOrderItemService, SupplierService supplierService
             , CommonService commonService, ItemService itemService, MakeAutoGenerateNumberService makeAutoGenerateNumberService,
-                                   EmailService emailService,
                                    TwilioMessageService twilioMessageService) {
         this.purchaseOrderService = purchaseOrderService;
         this.purchaseOrderItemService = purchaseOrderItemService;
@@ -48,7 +46,6 @@ public class PurchaseOrderController {
         this.commonService = commonService;
         this.itemService = itemService;
         this.makeAutoGenerateNumberService = makeAutoGenerateNumberService;
-        this.emailService = emailService;
         this.twilioMessageService = twilioMessageService;
     }
 
@@ -122,8 +119,7 @@ public class PurchaseOrderController {
                     .append("\t\t\t")
                     .append(purchaseOrderSaved.getPurchaseOrderItems().get(i).getLineTotal()).append("\n");
             }
-            emailService.sendEmail(purchaseOrderSaved.getSupplier().getEmail(),
-                                   "Requesting Items According To PO Code " + purchaseOrder.getCode(), message.toString());
+
         }
         return "redirect:/purchaseOrder/all";
     }

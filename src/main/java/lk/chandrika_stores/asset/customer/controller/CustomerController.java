@@ -5,7 +5,6 @@ import lk.chandrika_stores.asset.common_asset.model.enums.Title;
 import lk.chandrika_stores.asset.customer.entity.Customer;
 import lk.chandrika_stores.asset.customer.service.CustomerService;
 import lk.chandrika_stores.util.interfaces.AbstractController;
-import lk.chandrika_stores.util.service.EmailService;
 import lk.chandrika_stores.util.service.MakeAutoGenerateNumberService;
 import lk.chandrika_stores.util.service.TwilioMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,16 +24,16 @@ import java.util.stream.Collectors;
 public class CustomerController implements AbstractController<Customer, Integer> {
     private final CustomerService customerService;
     private final MakeAutoGenerateNumberService makeAutoGenerateNumberService;
-    private final EmailService emailService;
+
     private final TwilioMessageService twilioMessageService;
 
     @Autowired
     public CustomerController(CustomerService customerService,
-            MakeAutoGenerateNumberService makeAutoGenerateNumberService, EmailService emailService,
+            MakeAutoGenerateNumberService makeAutoGenerateNumberService,
             TwilioMessageService twilioMessageService) {
         this.customerService = customerService;
         this.makeAutoGenerateNumberService = makeAutoGenerateNumberService;
-        this.emailService = emailService;
+
         this.twilioMessageService = twilioMessageService;
     }
 
@@ -89,9 +88,7 @@ public class CustomerController implements AbstractController<Customer, Integer>
                 customer.setCode("CSSC" + makeAutoGenerateNumberService.numberAutoGen(previousCode).toString());
             }
             // send welcome message and email
-            if (customer.getEmail() != null) {
-                emailService.sendEmail(customer.getEmail(), "Welcome Message", "Welcome to Chandrika Super...");
-            }
+
             if (customer.getMobile() != null) {
                 // twilioMessageService.sendSMS(customer.getMobile(), "Welcome to Chandrika
                 // Super");
