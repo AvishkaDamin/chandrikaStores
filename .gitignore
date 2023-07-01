@@ -22,6 +22,8 @@ build/
 out/
 bin/
 
+.DS_Store
+
 
 ### NetBeans ###
 /nbproject/private/
