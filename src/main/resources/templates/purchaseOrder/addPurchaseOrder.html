@@ -87,9 +87,9 @@
                     <div class="text-left col-md-8">
                         <select class="form-control" id="item">
                             <option selected value=""> Please Select</option>
-                            <option data-th-each="item : ${items}" data-th-text="${item.name}"
-                                data-th-value="${item.id}"> Please Select
-                            </option>
+                            <option data-th-each="item : ${items}"
+                                data-th-value="${item.id}" data-th-text="${item.category.name+'-'+ item.brand.name+' - '+item.name }" > Please Select
+                            </option >
                         </select>
                     </div>
                 </div>
