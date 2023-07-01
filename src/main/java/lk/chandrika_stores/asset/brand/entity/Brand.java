@@ -1,6 +1,5 @@
 package lk.chandrika_stores.asset.brand.entity;
 
-
 import com.fasterxml.jackson.annotation.JsonFilter;
 
 import lk.chandrika_stores.asset.category.entity.Category;
@@ -28,7 +27,6 @@ import java.util.List;
 public class Brand extends AuditEntity {
     @NotNull
     @Size(min = 1, message = "This name length should be more than one character")
-    @Column(unique = true)
     private String name;
 
     @ManyToOne
@@ -36,7 +34,5 @@ public class Brand extends AuditEntity {
 
     @OneToMany(mappedBy = "brand")
     private List<Item> items;
-
-
 
 }
