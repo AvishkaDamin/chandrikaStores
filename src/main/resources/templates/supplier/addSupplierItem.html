@@ -83,7 +83,7 @@
                   <option value="" selected > Please Select</option >
                   <option data-th-each="item : ${items}"
                           data-th-value="${item.id}"
-                          data-th-text="${item.name}" > Please Select
+                          data-th-text="${item.category.name+'-'+ item.brand.name+' - '+item.name }" > Please Select
                   </option >
                 </select >
               </div >
