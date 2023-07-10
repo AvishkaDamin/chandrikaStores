@@ -90,10 +90,9 @@ public class InvoiceService implements AbstractService< Invoice, Integer > {
     Font highLiltedFont = FontFactory.getFont("Arial", 8, BaseColor.BLACK);
 
 
-    Paragraph paragraph = new Paragraph("JN_Super  \n \t\t No:130 B.1, \n" +
-                                            "Negombo Road, \n" +
-                                            "Veyangoda.\n\t" +
-                                            "Wataddara.\n", mainFont);
+    Paragraph paragraph = new Paragraph("Chandrika Stores  \n" +
+                                            "Buddgamuwa Road, \n" +
+                                            "Rajagiriya.\n", mainFont);
     paragraph.setAlignment(Element.ALIGN_CENTER);
     paragraph.setIndentationLeft(50);
     paragraph.setIndentationRight(50);
