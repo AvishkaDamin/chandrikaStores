@@ -519,14 +519,7 @@
     function totalPriceCard(val) {
         let requestCountVal = val;
         let abQuantity = $("#abQuantity").val();
-        // if (requestCountVal == 0) {
-        //     swal({
-        //         title: "Request value cannot be zero   ",
-        //         icon: "warning",
-        //     });
-        //     $("#requestCount").val("");
-        // }
-        if (parseFloat(abQuantity) >= parseFloat(requestCountVal) && !isNaN(requestCountVal))
+        if (parseFloat(abQuantity) >= parseFloat(requestCountVal))
         {
             $("#totalModal").val(parseFloat($("#sellPriceModal").val()) * parseFloat(requestCountVal));
             addButtonDisable();
