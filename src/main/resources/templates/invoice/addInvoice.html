@@ -518,6 +518,7 @@
 
     function totalPriceCard(val) {
         let requestCountVal = val;
+        if (!(requestCountVal === null || typeof requestCountVal === "undefined" || requestCountVal === "")){
         let abQuantity = $("#abQuantity").val();
         if (parseFloat(abQuantity) >= parseFloat(requestCountVal))
         {
@@ -532,6 +533,7 @@
             $("#requestCount").val('')
             addButtonDisable();
         }
+    }
     }
 
     //modal all values zero
