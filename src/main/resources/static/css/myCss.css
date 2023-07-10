@@ -71,7 +71,7 @@ input {
     position: relative;
     text-align: center;
     font-size: 16px;
-    background-color: rgb(1 150 157);
+    background-color: rgb(60, 244, 244);
     border-radius: 250px;
     color: #fff;
     margin-top: 20px;
@@ -137,7 +137,7 @@ input {
 
 /* Navbar Style--END*/
 :root {
-    --blue: #007bff;
+    --blue: #5aa0ea;
     --indigo: #6610f2;
     --purple: #6f42c1;
     --pink: #e83e8c;
@@ -148,7 +148,7 @@ input {
     --teal: #20c997;
     --cyan: #17a2b8;
     --white: #fff;
-    --gray: #6c757d;
+    --gray: #8896a1;
     --gray-dark: #5a7998;
     --primary: #007bff;
     --secondary: #6c757d;
@@ -168,5 +168,5 @@ input {
 }
 
 .btn-success {
-    background-color: #19be0d;
+    background-color: #38d72c;
 }

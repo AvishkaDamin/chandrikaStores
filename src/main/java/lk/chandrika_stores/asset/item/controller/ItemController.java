@@ -7,6 +7,7 @@ import lk.chandrika_stores.asset.item.entity.Item;
 import lk.chandrika_stores.asset.item.entity.enums.ItemStatus;
 import lk.chandrika_stores.asset.item.entity.enums.MainCategory;
 import lk.chandrika_stores.asset.item.service.ItemService;
+import lk.chandrika_stores.asset.supplier_item.service.SupplierItemService;
 import lk.chandrika_stores.util.interfaces.AbstractController;
 import lk.chandrika_stores.util.service.MakeAutoGenerateNumberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,17 +25,20 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping( "/item" )
-public class ItemController implements AbstractController< Item, Integer > {
+@RequestMapping("/item")
+public class ItemController implements AbstractController<Item, Integer> {
   private final ItemService itemService;
+  private final SupplierItemService supplierItemService;
   private final BrandService brandService;
   private final MakeAutoGenerateNumberService makeAutoGenerateNumberService;
 
   @Autowired
-  public ItemController(ItemService itemService, BrandService brandService, MakeAutoGenerateNumberService makeAutoGenerateNumberService) {
+  public ItemController(ItemService itemService, BrandService brandService,
+      MakeAutoGenerateNumberService makeAutoGenerateNumberService, SupplierItemService supplierItemService) {
     this.itemService = itemService;
     this.brandService = brandService;
     this.makeAutoGenerateNumberService = makeAutoGenerateNumberService;
+    this.supplierItemService = supplierItemService;
   }
 
   private String commonThings(Model model, Item item, Boolean addState) {
@@ -41,7 +46,7 @@ public class ItemController implements AbstractController< Item, Integer > {
     model.addAttribute("item", item);
     model.addAttribute("addStatus", addState);
     model.addAttribute("mainCategories", MainCategory.values());
-    model.addAttribute("brands",brandService.findAll() );
+    model.addAttribute("brands", brandService.findAll());
     model.addAttribute("urlMainCategory", MvcUriComponentsBuilder
         .fromMethodName(CategoryRestController.class, "getCategoryByMainCategory", "")
         .build()
@@ -63,24 +68,24 @@ public class ItemController implements AbstractController< Item, Integer > {
     return null;
   }
 
-  @GetMapping( "/add" )
+  @GetMapping("/add")
   public String addForm(Model model) {
     return commonThings(model, new Item(), true);
   }
 
-  @PostMapping( value = {"/save", "/update"} )
+  @PostMapping(value = { "/save", "/update" })
   public String persist(Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
-    if ( bindingResult.hasErrors() ) {
+    if (bindingResult.hasErrors()) {
       return commonThings(model, item, true);
     }
-    if ( item.getId() == null ) {
+    if (item.getId() == null) {
       item.setItemStatus(ItemStatus.JUSTENTERED);
-      //if there is not item in db
-      if ( itemService.lastItem() == null ) {
-        //need to generate new one
+      // if there is not item in db
+      if (itemService.lastItem() == null) {
+        // need to generate new one
         item.setCode("SSMI" + makeAutoGenerateNumberService.numberAutoGen(null).toString());
       } else {
-        //if there is item in db need to get that item's code and increase its value
+        // if there is item in db need to get that item's code and increase its value
         String previousCode = itemService.lastItem().getCode().substring(4);
         item.setCode("SSMI" + makeAutoGenerateNumberService.numberAutoGen(previousCode).toString());
       }
@@ -90,21 +95,34 @@ public class ItemController implements AbstractController< Item, Integer > {
     return "redirect:/item";
   }
 
-  @GetMapping( "/edit/{id}" )
+  @GetMapping("/edit/{id}")
   public String edit(@PathVariable Integer id, Model model) {
     return commonThings(model, itemService.findById(id), false);
   }
 
-  @GetMapping( "/delete/{id}" )
+  @GetMapping("/delete/{id}")
   public String delete(@PathVariable Integer id, Model model) {
     itemService.delete(id);
     return "redirect:/item";
   }
 
-  @GetMapping( "/{id}" )
+  @GetMapping("/{id}")
   public String view(@PathVariable Integer id, Model model) {
     model.addAttribute("itemDetail", itemService.findById(id));
 
     return "item/item-detail";
+  }
+
+  @GetMapping("/bysuplier")
+  public String getItemnewString(Model model) {
+    model.addAttribute("items", itemService.findAll());
+    return "item/itemnew";
+  }
+
+  @PostMapping("/bysuplier")
+  public String getSupplierbyItem(@ModelAttribute Item item, Model model) {
+    model.addAttribute("items", itemService.findAll());
+    model.addAttribute("suppliers", supplierItemService.findByItem(item));
+    return "item/itemnew";
   }
 }

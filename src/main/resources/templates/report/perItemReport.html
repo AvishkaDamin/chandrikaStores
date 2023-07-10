@@ -65,12 +65,14 @@
     </div>
     <div class="offset-2 col-8 col-sm-8 col-md-8">
       <div class="table-responsive">
-        <table class="table table-striped table-condensed">
+        <table class="table table-striped table-condensed" id="myTable1">
           <thead>
             <tr>
               <th> Index</th>
               <th> Item Name</th>
               <th>Item Count</th>
+              <th> Sell Price</th>
+              <th>Total Price</th>
             </tr>
           </thead>
           <tbody>
@@ -78,15 +80,48 @@
               <th data-th-text="${rowCount.count}"></th>
               <th data-th-text="${itemNameAndCount.name}"></th>
               <th data-th-text="${itemNameAndCount.count}"></th>
+              <th data-th-text="${itemNameAndCount.sellPrice}"></th>
+              <th>
+
+                <span class="number" data-th-text="${itemNameAndCount.price}"></span>
+              </th>
+              </th>
+
+
+            </tr>
+            <tr>
+              <th colspan="4"> Today Total</th>
+              </th>
+              <th id="todayTotal"></th>
             </tr>
           </tbody>
         </table>
       </div>
+
     </div>
   </div>
   <div data-th-replace="~{fragments/footer :: footerFragment}"></div>
   <!--script include-->
   <div data-th-replace="~{fragments/script :: scriptFragment}"></div>
+
+  <script>
+    $(document).ready(function () {
+
+      var sum = 0;
+
+      $('.number').each(function () {
+        var value = parseInt($(this).text(), 10);
+        if (!isNaN(value)) {
+          sum += value;
+        }
+      });
+
+      console.log(sum); $("#todayTotal").html(sum.toFixed(2))
+
+    });
+
+  </script>
 </body>
+
 
 </html>

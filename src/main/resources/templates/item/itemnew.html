@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head data-th-replace="~{fragments/header :: headerFragment}">
+    <meta charset="UTF-8">
+    <title>item</title>
+
+
+</head>
+
+<body>
+
+    <form method="post" action="/item/bysuplier">
+        <div class="form-row col-md-6">
+            <div class="col-md-4">
+                <label class="control-label" for="item">Select Items:</label>
+            </div>
+
+            <div class="text-left col-md-8">
+                <select class="form-control" id="item" tabindex="9" name="id">
+                    <option value="" selected hidden> Please Select</option>
+                    <option data-th-each="item : ${items}" data-th-value="${item.id}"
+                        data-th-text="${item.category.mainCategory.mainCategory}+' - '+${item.category.name}+' - '+${item.brand.name}+' - '+${item.name}">
+                        Please Select
+                    </option>
+                </select>
+            </div>
+            <button type="submit">Find</button>
+
+        </div>
+    </form>
+    <div class="col" id="supplierListPresent" data-th-fragment="supplierFragment"
+        data-th-if="${not #lists.isEmpty(suppliers)}">
+        <table class="table table-hover table-striped" id="myTable">
+            <thead>
+                <tr>
+                    <th> Index</th>
+                    <th> Code</th>
+                    <th> Company Name</th>
+                    <th> Contact No1</th>
+                    <th> Email</th>
+                    <th> Address</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-th-each="supplier, rowCount : ${suppliers}">
+                    <th data-th-text="${rowCount.count}"></th>
+                    <th data-th-text="${supplier.code}"></th>
+                    <th data-th-text="${supplier.name}"></th>
+                    <th data-th-text="${supplier.contactOne}"></th>
+                    <th data-th-text="${supplier.email}"></th>
+                    <th data-th-text="${supplier.address}"></th>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div data-th-replace="~{fragments/footer :: footerFragment}"></div>
+    <!--script include-->
+    <script data-th-replace="~{fragments/script :: scriptFragment}"></script>
+
+</body>
+
+</html>
