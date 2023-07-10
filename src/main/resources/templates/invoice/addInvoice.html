@@ -513,11 +513,11 @@
 
     //modal total mount calculate
     $("#requestCount").bind('keyup', function () {
-        totalPriceCard();
+        totalPriceCard($(this).val());
     });
 
-    function totalPriceCard() {
-        let requestCountVal = $("#requestCount").val();
+    function totalPriceCard(val) {
+        let requestCountVal = val;
         let abQuantity = $("#abQuantity").val();
         // if (requestCountVal == 0) {
         //     swal({
@@ -526,10 +526,12 @@
         //     });
         //     $("#requestCount").val("");
         // }
-        if (parseFloat(abQuantity) >= parseFloat(requestCountVal) && !isNaN(requestCountVal)) {
+        if (parseFloat(abQuantity) >= parseFloat(requestCountVal) && !isNaN(requestCountVal))
+        {
             $("#totalModal").val(parseFloat($("#sellPriceModal").val()) * parseFloat(requestCountVal));
             addButtonDisable();
-        } else {
+        }
+        else {
             swal({
                 title: "Request more than available   ",
                 icon: "warning",
