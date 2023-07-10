@@ -519,13 +519,13 @@
     function totalPriceCard() {
         let requestCountVal = $("#requestCount").val();
         let abQuantity = $("#abQuantity").val();
-        if (requestCountVal == 0) {
-            swal({
-                title: "Request value cannot be zero   ",
-                icon: "warning",
-            });
-            $("#requestCount").val("");
-        }
+        // if (requestCountVal == 0) {
+        //     swal({
+        //         title: "Request value cannot be zero   ",
+        //         icon: "warning",
+        //     });
+        //     $("#requestCount").val("");
+        // }
         if (parseFloat(abQuantity) >= parseFloat(requestCountVal) && !isNaN(requestCountVal)) {
             $("#totalModal").val(parseFloat($("#sellPriceModal").val()) * parseFloat(requestCountVal));
             addButtonDisable();
