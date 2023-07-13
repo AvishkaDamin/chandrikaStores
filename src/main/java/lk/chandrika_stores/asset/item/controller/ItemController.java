@@ -83,7 +83,7 @@ public class ItemController implements AbstractController<Item, Integer> {
       // if there is not item in db
       if (itemService.lastItem() == null) {
         // need to generate new one
-        item.setCode("SSMI" + makeAutoGenerateNumberService.numberAutoGen(null).toString());
+        item.setCode("CSMI" + makeAutoGenerateNumberService.numberAutoGen(null).toString());
       } else {
         // if there is item in db need to get that item's code and increase its value
         String previousCode = itemService.lastItem().getCode().substring(4);
