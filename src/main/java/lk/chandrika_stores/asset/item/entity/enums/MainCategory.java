@@ -10,8 +10,6 @@ public enum MainCategory {
     BAKERY("Bakery"),
     SNAKS_AND_CONFECTIONERY_ITEMS("Snaks & Confectionery Items"),
     RICE_PULSES("Rice Pulses"),
-    SEA_FOOD("Sea Food"),
-    MEATS("Meats"),
     TEA_AND_COFFEE("Tea & Coffee"),
     VEGETABLES_FRUITS("Vegetables & Fruits"),
     DAIRY_PRODUCTS("Dairy Products"),
@@ -25,7 +23,6 @@ public enum MainCategory {
     PARTY_FAVORS("Party Favors"),
     STATIONARY("Stationary"),
     PET_PRODUCTS("Pet Products");
-
 
     private final String mainCategory;
 }

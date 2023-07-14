@@ -1,6 +1,8 @@
 package lk.chandrika_stores.asset.invoice.controller;
 
 import com.itextpdf.text.DocumentException;
+
+import lk.chandrika_stores.asset.common_asset.model.TwoDate;
 import lk.chandrika_stores.asset.customer.service.CustomerService;
 import lk.chandrika_stores.asset.discount_ratio.service.DiscountRatioService;
 import lk.chandrika_stores.asset.invoice.entity.Invoice;
@@ -64,15 +66,19 @@ public class InvoiceController {
             dateTimeAgeService.dateTimeToLocalDateStartInDay(dateTimeAgeService.getPastDateByMonth(3)),
             dateTimeAgeService.dateTimeToLocalDateEndInDay(LocalDate.now())));
     model.addAttribute("firstInvoiceMessage", true);
+    model.addAttribute("messageView", false);
+    System.out.println(invoiceService.findByCreatedAtIsBetween(
+        dateTimeAgeService.dateTimeToLocalDateStartInDay(dateTimeAgeService.getPastDateByMonth(3)),
+        dateTimeAgeService.dateTimeToLocalDateEndInDay(LocalDate.now())));
     return "invoice/invoice";
   }
 
-  @GetMapping("/search")
-  public String invoiceSearch(@RequestAttribute("startDate") LocalDate startDate,
-      @RequestAttribute("endDate") LocalDate endDate, Model model) {
+  @PostMapping("/search")
+  public String invoiceSearch(@ModelAttribute TwoDate twoDate, Model model) {
     model.addAttribute("invoices",
-        invoiceService.findByCreatedAtIsBetween(dateTimeAgeService.dateTimeToLocalDateStartInDay(startDate),
-            dateTimeAgeService.dateTimeToLocalDateEndInDay(endDate)));
+        invoiceService.findByCreatedAtIsBetween(
+            dateTimeAgeService.dateTimeToLocalDateStartInDay(twoDate.getStartDate()),
+            dateTimeAgeService.dateTimeToLocalDateEndInDay(twoDate.getEndDate())));
     model.addAttribute("firstInvoiceMessage", true);
     return "invoice/invoice";
   }
@@ -116,13 +122,13 @@ public class InvoiceController {
     if (invoice.getId() == null) {
       if (invoiceService.findByLastInvoice() == null) {
         // need to generate new one
-        invoice.setCode("SSCI" + makeAutoGenerateNumberService.numberAutoGen(null).toString());
+        invoice.setCode("CSCI" + makeAutoGenerateNumberService.numberAutoGen(null).toString());
       } else {
 
         // if there is customer in db need to get that customer's code and increase its
         // value
         String previousCode = invoiceService.findByLastInvoice().getCode().substring(4);
-        invoice.setCode("SSCI" + makeAutoGenerateNumberService.numberAutoGen(previousCode).toString());
+        invoice.setCode("CSCI" + makeAutoGenerateNumberService.numberAutoGen(previousCode).toString());
       }
     }
     invoice.setInvoiceValidOrNot(InvoiceValidOrNot.VALID);

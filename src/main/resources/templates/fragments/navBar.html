@@ -7,10 +7,10 @@
 
 <body>
     <nav class="navbar navbar-expand-sm " data-th-fragment="navBarFragment"
-        style="background-color: #040516d1;color: white;margin-bottom: 10px;">
+        style="background-color: #290d3dd1;color: rgba(255, 255, 255, 0);margin-bottom: 10px;">
 
 
-        <a class="navbar-brand" data-th-href="${'/home'}">Chandrika Stores</a>
+        <a class="navbar-brand" data-th-href="${'/home'}"> Chandrika Stores</a>
         <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId"
             aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation"></button>
         <div class="collapse navbar-collapse" id="collapsibleNavId">
@@ -29,7 +29,7 @@
                             data-th-href="@{'/category'}" class="nav-link text-primary"> Category Management </a>
                         <a data-sec-authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_PROCUREMENT_MANAGER')"
                             data-th-href="@{'/brand'}" class="nav-link text-primary"> Brand Management </a>
-                        <a data-sec-authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_PROCUREMENT_MANAGER' ,'ROLE_CASHIER')"
+                        <a data-sec-authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_PROCUREMENT_MANAGER' )"
                             data-th-href="@{'/item'}" class="nav-link text-primary"> Item Management </a>
                         <a data-sec-authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_PROCUREMENT_MANAGER')"
                             data-th-href="@{'/supplier'}" class="nav-link text-primary"> Supplier Management </a>
@@ -42,7 +42,7 @@
                             data-th-href="@{'/payment'}" class="nav-link text-primary"> Payment Management </a>
                         <a data-sec-authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_PROCUREMENT_MANAGER' ,'ROLE_ACCOUNTANT' , 'ROLE_CASHIER')"
                             data-th-href="@{'/invoice'}" class="nav-link text-primary"> Invoice Management </a>
-                        <a data-sec-authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_PROCUREMENT_MANAGER' , 'ROLE_CASHIER')"
+                        <a data-sec-authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_PROCUREMENT_MANAGER' )"
                             data-th-href="@{'/ledger'}" class="nav-link text-primary"> Ledger Management </a>
                         <a data-sec-authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_PROCUREMENT_MANAGER')"
                             data-th-href="@{'/discountRatio'}" class="nav-link text-primary"> Discount Management </a>
@@ -65,11 +65,11 @@
                             data-th-href="@{'/category/add'}" class="nav-link text-primary"> New Category </a>
                         <a data-sec-authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_PROCUREMENT_MANAGER')"
                             data-th-href="@{'/brand/add'}" class="nav-link text-primary"> New Brand </a>
-                        <a data-sec-authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_PROCUREMENT_MANAGER' ,'ROLE_CASHIER')"
+                        <a data-sec-authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_PROCUREMENT_MANAGER' )"
                             data-th-href="@{'/item/add'}" class="nav-link text-primary"> New Item </a>
                         <a data-sec-authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_PROCUREMENT_MANAGER')"
                             data-th-href="@{'/supplier/add'}" class="nav-link text-primary"> New Supplier </a>
-                        <a data-sec-authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_ACCOUNTANT','ROLE_CASHIER')"
+                        <a data-sec-authorize="hasAnyAuthority('ROLE_MANAGER','ROLE_CASHIER')"
                             data-th-href="@{'/invoice/add'}" class="nav-link text-primary"> New Invoice </a>
                         <a data-sec-authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_PROCUREMENT_MANAGER')"
                             data-th-href="@{'/discountRatio/add'}" class="nav-link text-primary"> New Discount </a>
@@ -97,6 +97,10 @@
                             User Report</a>
                         <a data-sec-authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_PROCUREMENT_MANAGER' )"
                             data-th-href="@{'/report/perItem'}" class="nav-link text-primary"> Per Item Report</a>
+
+                        <!-- <a data-sec-authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_ACCOUNTANT' )"
+                            data-th-href="@{'/payment/allPayment'}" class="nav-link text-primary"> All Payment
+                            Report</a> -->
                     </div>
                 </li>
             </ul>

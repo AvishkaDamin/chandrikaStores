@@ -12,7 +12,7 @@
   <nav data-th-replace="~{fragments/navBar :: navBarFragment}"></nav>
 
   <div class="container">
-    <div class="row">
+    <div data-sec-authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_PROCUREMENT_MANAGER')" class="row">
       <!--Custom Invoice search-->
       <button type="button" class="btn btn-info mb-5 btn-block text-capitalize" data-toggle="collapse"
         data-target="#dataTargetCollapse" aria-expanded="false" aria-controls="dataTargetCollapse"> Custom Invoice
@@ -26,11 +26,11 @@
               <form class="form-inline" data-th-action="@{/invoice/search}" data-th-method="POST">
                 <div class="form-group">
                   <label for="startDate">FROM :</label>
-                  <input class="form-control" id="startDate" name="startDate" type="date" />
+                  <input class="form-control" id="startDate" name="startDate" type="date" required />
                 </div>
                 <div class="form-group">
                   <label for="endDate">TO :</label>
-                  <input class="form-control" id="endDate" name="endDate" type="date" />
+                  <input class="form-control" id="endDate" name="endDate" type="date" required />
                 </div>
                 <button class="btn btn-success" id="btnSummaryFind" type="submit"><span
                     class="glyphicon glyphicon-search"></span>&nbsp;Search
@@ -45,7 +45,8 @@
     <div class="row" data-th-if="${firstInvoiceMessage}">
       <div class="col-sm-12 mt-4">
         <div class="form-group text-left col-sm-2">
-          <a class="btn btn-primary" href="/invoice/add"><span class="glyphicon glyphicon-list-alt"></span>&nbsp; New
+          <a data-sec-authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_PROCUREMENT_MANAGER','ROLE_CASHIER' )"
+            class="btn btn-primary" href="/invoice/add"><span class="glyphicon glyphicon-list-alt"></span>&nbsp; New
             Invoice</a>
         </div>
         <div class="alert alert-warning col-sm-8" role="alert">
@@ -53,10 +54,7 @@
             search
             using above method</strong>
         </div>
-        <div class="form-group text-right col-sm-2">
-          <a class="btn btn-info" href="/invoice/search"><span class="glyphicon glyphicon-search"></span>&nbsp; Search
-            Invoice</a>
-        </div>
+
       </div>
     </div>
     <!--List all invoice-->

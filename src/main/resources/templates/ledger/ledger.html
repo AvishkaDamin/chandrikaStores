@@ -80,7 +80,7 @@
               <th> Price</th>
               <th> M Date</th>
               <th> E Date</th>
-              <th> Modify</th>
+              <th data-sec-authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_PROCUREMENT_MANAGER')"> Modify</th>
             </tr>
           </thead>
           <tbody>
@@ -93,7 +93,8 @@
               <th data-th-text="${ledger.manufactureDate}"></th>
               <th data-th-text="${ledger.expiredDate}"></th>
               <th>
-                <a data-th-href="${'/purchaseOrder/supplier/' + ledger.goodReceivedNote.purchaseOrder.supplier.id}"
+                <a data-sec-authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_PROCUREMENT_MANAGER')"
+                  data-th-href="${'/purchaseOrder/supplier/' + ledger.goodReceivedNote.purchaseOrder.supplier.id}"
                   class="btn btn-primary btn-sm"><i class="fa fa-folder-open" style="font-size: 15px"></i>Purchase
                   Order</a>
               </th>
