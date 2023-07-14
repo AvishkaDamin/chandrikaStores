@@ -3,111 +3,95 @@
 
 <head data-th-replace="~{fragments/header :: headerFragment}">
 
-    <body background="/img/formbg.jpg" />
-</head>
 </head>
 
 <body class="sb-nav-fixed">
-    <nav data-th-replace="~{fragments/navBar :: navBarFragment}"></nav>
-    </div>
-    <br>
-    <div class="container-fluid mainbody">
-        <div class="row cardrow">
-            <div class="col-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h3><a data-sec-authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_CASHIER')"
-                                data-th-href="@{'/customer'}">CUSTOMER</a></h3>
-                    </div>
-                    <div class="card-body">
-                        <img src="../img/customer.png" style="width:200px; ">
-                    </div>
+<nav data-th-replace="~{fragments/navBar :: navBarFragment}"></nav>
+
+<br>
+<div class="container-fluid mainbody">
+    <div class="row cardrow">
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3><a data-sec-authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_CASHIER')"
+                           data-th-href="@{'/customer'}">CUSTOMER</a></h3>
                 </div>
-
-            </div>
-
-            <div class="col-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h3><a data-sec-authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_ADMIN')"
-                                data-th-href="@{'/employee'}">EMPLOYEE</a></h3>
-                    </div>
-                    <div class="card-body">
-                        <img src="../img/employee.png" style="width:220px; ">
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h3><a data-sec-authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_STOCK KEEPER')"
-                                data-th-href="@{'/supplier'}">SUPPLIER</a></h3>
-                    </div>
-                    <div class="card-body">
-                        <img src="../img/supplier2.png" style="width:130px;margin-left:50px">
-                    </div>
+                <div class="card-body">
+                    <img src="../img/customer.png" style="width:200px; ">
                 </div>
             </div>
 
         </div>
-        <br>
-        <div class="row cardrow">
-            <div class="col-3">
-                <div class="card">
-                    <div class="card-header">
-                        <h3><a data-sec-authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_ACCOUNTANT', 'ROLE_CASHIER')"
-                                data-th-href="@{'/payment'}">PAYMENT</a></h3>
-                    </div>
-                    <div class="card-body">
-                        <img src="../img/payment.png" style="width:188px; ">
-                    </div>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h3><a data-sec-authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_STOCK KEEPER')"
-                                data-th-href="@{'/purchaseOrder'}">PURCHASE ORDER</a></h3>
-                    </div>
-                    <div class="card-body">
-                        <img src="../img/porder.png" style="width:200px;">
-                    </div>
-                </div>
-            </div>
-            <div class="col-4">
 
-                <div class="card">
-                    <div class="card-header">
-                        <h3><a data-sec-authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_STOCK KEEPER')"
-                                data-th-href="@{'/item'}">ITEM</a></h3>
-                    </div>
-                    <div class="card-body">
-                        <img src="../img/item.png" style="width:190px; ">
-                    </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3><a data-sec-authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_ADMIN')"
+                           data-th-href="@{'/employee'}">EMPLOYEE</a></h3>
                 </div>
-            </div>
-            <div class="col-4">
-
-                <!-- <div class="card">
-                    <div class="card-header">
-                        <h3><a data-sec-authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_STOCK KEEPER' ,'ROLE_CASHIER')"
-                                data-th-href="@{'/item/bysuplier'}">ITEM by Supplier</h3>
-                    </div>
-                    <div class="card-body">
-                        <img src=style="width:190px; ">
-                    </div> -->
+                <div class="card-body">
+                    <img src="../img/employee.png" style="width:220px; ">
+                </div>
             </div>
         </div>
-    </div>
+
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3><a data-sec-authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_STOCK KEEPER')"
+                           data-th-href="@{'/supplier'}">SUPPLIER</a></h3>
+                </div>
+                <div class="card-body">
+                    <img src="../img/supplier2.png" style="width:130px;margin-left:50px">
+                </div>
+            </div>
+        </div>
 
     </div>
-    </div>
+    <div class="row cardrow mt-3">
+        <div class="col-4" data-sec-authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_ACCOUNTANT', 'ROLE_CASHIER')">
+            <div class="card">
+                <div class="card-header">
+                    <h3><a
+                            data-th-href="@{'/payment'}">PAYMENT</a></h3>
+                </div>
+                <div class="card-body">
+                    <img src="../img/payment.png" style="width:188px; ">
+                </div>
+            </div>
+        </div>
+        <div class="col-4" data-sec-authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_STOCK KEEPER')">
+            <div class="card">
+                <div class="card-header">
+                    <h3><a
+                            data-th-href="@{'/purchaseOrder'}">PURCHASE ORDER</a></h3>
+                </div>
+                <div class="card-body">
+                    <img src="../img/porder.png" style="width:200px;">
+                </div>
+            </div>
+        </div>
+        <div class="col-4" data-sec-authorize="hasAnyAuthority('ROLE_MANAGER', 'ROLE_STOCK KEEPER')">
 
-    <!--footer include-->
-    <div data-th-replace="~{fragments/footer :: footerFragment}"></div>
-    <!--script include-->
-    <div data-th-replace="~{fragments/script :: scriptFragment}"></div>
+            <div class="card">
+                <div class="card-header">
+                    <h3><a
+                            data-th-href="@{'/item'}">ITEM</a></h3>
+                </div>
+                <div class="card-body">
+                    <img src="../img/item.png" style="width:190px; ">
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--footer include-->
+<div data-th-replace="~{fragments/footer :: footerFragment}"></div>
+<!--script include-->
+<div data-th-replace="~{fragments/script :: scriptFragment}"></div>
 
 
 </body>
